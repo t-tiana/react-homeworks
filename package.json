@@ -2,7 +2,11 @@
   "name": "18_react_homework_02",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://t-tiana.github.io/18_react_homework_02",
+  "homepage": "https://t-tiana.github.io/react-homeworks",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/t-tiana/react-homeworks.git"
+  },
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.3",
