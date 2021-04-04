@@ -1,7 +1,13 @@
+import React from 'react';
 import s from './App.module.css';
+import TodoApp from './components/TodoApp';
 
 const App = () => {
-  return <div className={s.wrapper}>homework 03</div>;
+  return (
+    <div className={s.wrapper}>
+      <TodoApp />
+    </div>
+  );
 };
 
 export default App;

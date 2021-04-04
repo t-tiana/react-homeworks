@@ -1,0 +1,24 @@
+.header {
+  margin: 1rem 0 10px 0;
+}
+
+.task li {
+  list-style-type: none;
+  background-color: white;
+  border: 1.5px solid #e7e7e7;
+  border-top: 0;
+  border-radius: 3px;
+  display: flex;
+  flex-direction: column;
+
+  &:nth-child(1) {
+    border-top: 1.5px solid #e7e7e7;
+  }
+}
+
+.line {
+  height: 1px;
+  width: 100%;
+  background-color: #e7e7e7;
+  margin: 0 0 1.5rem 0;
+}
