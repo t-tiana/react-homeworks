@@ -15,7 +15,9 @@ class AddTodo extends Component {
     });
   };
   addTask = () => {
-    this.props.saveTask(this.state.text);
+    if (this.state.text !== '') {
+      this.props.saveTask(this.state.text);
+    }
     this.setState({
       text: '',
     });

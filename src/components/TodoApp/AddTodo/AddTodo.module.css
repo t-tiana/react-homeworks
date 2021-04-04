@@ -10,6 +10,7 @@
   align-items: center;
   justify-content: space-between;
   width: 94.5%;
+  gap: 5%;
 }
 
 .buttonWrapper {
@@ -22,8 +23,9 @@
 }
 
 .taskInput {
+  width: 82%;
   max-width: 82%;
-  min-width: 82%;
+  min-width: 70%;
   height: 1.7rem;
   min-height: 1.7rem;
   border-radius: 3px;
