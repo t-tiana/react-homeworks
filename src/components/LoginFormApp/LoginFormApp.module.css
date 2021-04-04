@@ -1,0 +1,72 @@
+.formWrapper {
+  display: flex;
+  flex-direction: column;
+  width: 27%;
+  min-width: 300px;
+  height: max-content;
+  padding: 3% 4%;
+  background-color: #ffffff;
+  align-self: center;
+  border-radius: 5px;
+  margin: 5rem 0;
+}
+
+h1 {
+  text-transform: uppercase;
+  text-align: center;
+  margin: 0 0 2rem 0;
+  font-size: 1.3rem;
+  letter-spacing: 2px;
+}
+
+.input {
+  padding: 10px 20px;
+  border: 1px solid #dfdfdf;
+  background-color: #e6e9ed;
+  margin-top: 15px;
+  border-radius: 2px;
+  height: 30px;
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+}
+.input:nth-child(2) {
+  margin: 0;
+}
+
+.password {
+  font: small-caption;
+  font-size: 20px;
+}
+
+.checkbox {
+  margin-right: 5px;
+}
+
+.checkboxWrapper {
+  margin: 1rem 0;
+  font-size: 0.86rem;
+}
+
+.submitBtn {
+  display: block;
+  width: 100%;
+  margin: 1rem 0 0 0;
+  padding: 10px 15px;
+  background: #6a62d3;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  text-transform: uppercase;
+  border-radius: 2px;
+  height: 3rem;
+  font-family: inherit;
+  font-size: 1rem;
+  letter-spacing: 1px;
+}
+
+.error {
+  color: #ff5858;
+  margin: 5px 6px;
+  font-size: 0.9rem;
+}

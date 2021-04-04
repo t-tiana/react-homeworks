@@ -1,11 +1,11 @@
 import React from 'react';
 import s from './App.module.css';
-import TodoApp from './components/TodoApp';
+import LoginFormApp from './components/LoginFormApp';
 
 const App = () => {
   return (
     <div className={s.wrapper}>
-      <TodoApp />
+      <LoginFormApp />
     </div>
   );
 };
