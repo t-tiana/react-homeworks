@@ -7,15 +7,15 @@ class Edit extends Component {
     super(props);
     this.state = {
       text: this.props.text,
-      todos: props.globalTodos,
+      todos: props.allTasks,
     };
   }
 
   static getDerivedStateFromProps(props, state) {
-    const { globalTodos } = props;
+    const { allTasks } = props;
 
-    if (globalTodos !== state.todos) {
-      return (state.todos = props.globalTodos);
+    if (allTasks !== state.todos) {
+      return (state.todos = props.allTasks);
     }
   }
 
@@ -30,12 +30,13 @@ class Edit extends Component {
   };
 
   render() {
-    const { id, text } = this.props;
+    const { id } = this.props;
+    const { text } = this.state;
     return (
       <>
         <textarea
           className="editInput"
-          value={this.state.text}
+          value={text}
           onChange={this.handleInputChange}
           id={id}
         />

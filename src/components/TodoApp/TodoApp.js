@@ -9,8 +9,9 @@ class TodoApp extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      todos: [],
-      text: '',
+      allTasks: [],
+      uncompletedTasks: [],
+      completedTasks: [],
     };
   }
 
@@ -19,7 +20,17 @@ class TodoApp extends Component {
     const parsedTodos = JSON.parse(todos);
 
     if (parsedTodos) {
-      this.setState({ todos: parsedTodos });
+      this.setState({
+        allTasks: parsedTodos,
+
+        uncompletedTasks: parsedTodos.filter(
+          ({ completed }) => completed === false,
+        ),
+
+        completedTasks: parsedTodos.filter(
+          ({ completed }) => completed === true,
+        ),
+      });
     } else {
       const newTodo = {
         id: uuidv4(),
@@ -28,18 +39,25 @@ class TodoApp extends Component {
         completed: false,
         edit: false,
       };
-      this.setState(({ todos }) => ({
-        todos: [newTodo, ...todos],
+      this.setState(({ allTasks }) => ({
+        allTasks: [newTodo, ...allTasks],
       }));
     }
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    const nextTodos = this.state.todos;
-    const prevTodos = prevState.todos;
+    const nextTodos = this.state.allTasks;
+    const prevTodos = prevState.allTasks;
 
     if (nextTodos !== prevTodos) {
       localStorage.setItem('todos', JSON.stringify(nextTodos));
+
+      this.setState(({ allTasks }) => ({
+        uncompletedTasks: allTasks.filter(
+          ({ completed }) => completed === false,
+        ),
+        completedTasks: allTasks.filter(({ completed }) => completed === true),
+      }));
     }
   }
 
@@ -51,36 +69,36 @@ class TodoApp extends Component {
       edit: false,
     };
 
-    this.setState(({ todos }) => ({
-      todos: [...todos, newTodo],
+    this.setState(({ allTasks }) => ({
+      allTasks: [newTodo, ...allTasks],
     }));
   };
 
   deleteTask = todoId => {
-    this.setState(({ todos }) => ({
-      todos: todos.filter(({ id }) => id !== todoId),
+    this.setState(({ allTasks }) => ({
+      allTasks: allTasks.filter(({ id }) => id !== todoId),
     }));
   };
 
   toggleCompleteTask = todoId => {
-    this.setState(({ todos }) => ({
-      todos: todos.map(todo =>
+    this.setState(({ allTasks }) => ({
+      allTasks: allTasks.map(todo =>
         todo.id === todoId ? { ...todo, completed: !todo.completed } : todo,
       ),
     }));
   };
 
   handleEdit = todoId => {
-    this.setState(({ todos }) => ({
-      todos: todos.map(todo =>
+    this.setState(({ allTasks }) => ({
+      allTasks: allTasks.map(todo =>
         todo.id === todoId ? { ...todo, edit: !todo.edit } : todo,
       ),
     }));
   };
 
   saveEdit = (text, todoId) => {
-    this.setState(({ todos }) => ({
-      todos: todos.map(todo =>
+    this.setState(({ allTasks }) => ({
+      allTasks: allTasks.map(todo =>
         todo.id === todoId
           ? { ...todo, text: text !== '' ? text : todo.text, edit: !todo.edit }
           : todo,
@@ -92,7 +110,8 @@ class TodoApp extends Component {
     return (
       <div className={s.wrapper}>
         <TodoList
-          globalTodos={this.state.todos}
+          allTasks={this.state.allTasks}
+          uncompletedTasks={this.state.uncompletedTasks}
           deleteTask={this.deleteTask}
           toggleCompleteTask={this.toggleCompleteTask}
           handleEdit={this.handleEdit}
@@ -102,7 +121,8 @@ class TodoApp extends Component {
         <AddTodo saveTask={this.saveTask} />
 
         <TodoDone
-          globalTodos={this.state.todos}
+          allTasks={this.state.allTasks}
+          completedTasks={this.state.completedTasks}
           deleteTask={this.deleteTask}
           toggleCompleteTask={this.toggleCompleteTask}
           handleEdit={this.handleEdit}

@@ -7,7 +7,7 @@ class TodoComponent extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      todos: props.globalTodos,
+      todos: props.allTasks,
       edit: '',
       taskId: props.id,
       text: '',
@@ -15,8 +15,8 @@ class TodoComponent extends Component {
   }
 
   static getDerivedStateFromProps(props, state) {
-    const { id, globalTodos } = props;
-    const getEditState = globalTodos
+    const { id, allTasks } = props;
+    const getEditState = allTasks
       .map(todo => todo.id === id && todo.edit === true)
       .filter(taskToEdit => taskToEdit === true)
       .toString();
@@ -32,16 +32,16 @@ class TodoComponent extends Component {
       }
     };
 
-    if (globalTodos !== state.todos) {
+    if (allTasks !== state.todos) {
       return (
-        (state.todos = globalTodos), (state.edit = getBooleanEdit(getEditState))
+        (state.todos = allTasks), (state.edit = getBooleanEdit(getEditState))
       );
     }
   }
 
   componentDidMount() {
-    const { id, globalTodos } = this.props;
-    const getEditState = globalTodos
+    const { id, allTasks } = this.props;
+    const getEditState = allTasks
       .map(todo => todo.id === id && todo.edit === true)
       .filter(taskToEdit => taskToEdit === true)
       .toString();
@@ -71,19 +71,14 @@ class TodoComponent extends Component {
       deleteTask,
       handleEdit,
       saveEdit,
-      globalTodos,
+      allTasks,
     } = this.props;
 
     let toggleEditMode;
 
     if (this.state.edit) {
       toggleEditMode = (
-        <Edit
-          text={text}
-          id={id}
-          saveEdit={saveEdit}
-          globalTodos={globalTodos}
-        />
+        <Edit text={text} id={id} saveEdit={saveEdit} allTasks={allTasks} />
       );
     } else {
       toggleEditMode = (
