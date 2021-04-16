@@ -1,10 +1,33 @@
+@font-face {
+  font-family: 'Noto Sans JP', sans-serif;
+  src: url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100;300;400;500&display=swap');
+}
 body {
-  background: white;
+  background: rgba(185, 185, 185, 1);
+  background: linear-gradient(
+    161deg,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(234, 239, 254, 1) 39%,
+    rgba(185, 185, 185, 1) 100%
+  );
+  background: -webkit-gradient(
+    161deg,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(234, 239, 254, 1) 39%,
+    rgba(185, 185, 185, 1) 100%
+  );
+  background: -moz-linear-gradient(
+    161deg,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(234, 239, 254, 1) 39%,
+    rgba(185, 185, 185, 1) 100%
+  );
+  background-blend-mode: screen;
+  background-size: cover;
+  background-attachment: fixed;
 }
 .wrapper {
-  font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue',
-    Helvetica, Arial, 'Lucida Grande', sans-serif;
-  width: 100%;
+  font-family: 'Noto Sans JP', sans-serif;
   display: flex;
   flex-direction: column;
   justify-content: center;

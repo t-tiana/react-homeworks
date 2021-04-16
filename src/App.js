@@ -1,11 +1,19 @@
-import React from 'react';
 import s from './App.module.css';
-import TodoApp from './components/TodoApp';
+
+// 1. Створити класовий компонент в якому з допомогою стану компоненту всі дані з інпута
+//в який юзер буде вводити тест - будуть в режимі реального часу відображатись в функціональному компоненті в h1 тегу.
+import Input from './Components/InputToOutput';
+
+// 2. Створити 3 компонента крізь які будемо передавати функцію з рандомним числом та
+// повертати в головний компонент
+// де отримане значення з компонента С будемо множити на 1000 та записувати в стейт . (А -> B -> C > B > A)
+import RandomGen from './Components/RandomGen';
 
 const App = () => {
   return (
     <div className={s.wrapper}>
-      <TodoApp />
+      <Input />
+      <RandomGen />
     </div>
   );
 };
