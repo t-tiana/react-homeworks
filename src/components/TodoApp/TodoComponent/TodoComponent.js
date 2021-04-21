@@ -1,115 +1,66 @@
-import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import actions from '../../../redux/actions';
 import './TodoComponent.scss';
 import Edit from './Edit';
 import TodoButtons from './TodoButtons';
 
-class TodoComponent extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      todos: props.allTasks,
-      edit: '',
-      taskId: props.id,
-      text: '',
-    };
-  }
+const TodoComponent = props => {
+  const {
+    id,
+    text,
+    completed,
+    toggleCompleteTask,
+    deleteTask,
+    enableEditMode,
+    allTasks,
+  } = props;
 
-  static getDerivedStateFromProps(props, state) {
-    const { id, allTasks } = props;
-    const getEditState = allTasks
-      .map(todo => todo.id === id && todo.edit === true)
-      .filter(taskToEdit => taskToEdit === true)
-      .toString();
+  let toggleEditMode;
 
-    const getBooleanEdit = getEditState => {
-      switch (getEditState) {
-        case '':
-          return false;
-        case 'true':
-          return true;
-        default:
-          return false;
-      }
-    };
+  const edit = allTasks
+    .map(todo => todo.id === id && todo.edit === true)
+    .filter(taskToEdit => taskToEdit === true)
+    .toString();
 
-    if (allTasks !== state.todos) {
-      return (
-        (state.todos = allTasks), (state.edit = getBooleanEdit(getEditState))
-      );
-    }
-  }
-
-  componentDidMount() {
-    const { id, allTasks } = this.props;
-    const getEditState = allTasks
-      .map(todo => todo.id === id && todo.edit === true)
-      .filter(taskToEdit => taskToEdit === true)
-      .toString();
-
-    const getBooleanEdit = getEditState => {
-      switch (getEditState) {
-        case '':
-          return false;
-        case 'true':
-          return true;
-        default:
-          return false;
-      }
-    };
-
-    this.setState(() => ({
-      edit: getBooleanEdit(getEditState),
-    }));
-  }
-
-  render() {
-    const {
-      id,
-      text,
-      completed,
-      toggleCompleteTask,
-      deleteTask,
-      handleEdit,
-      saveEdit,
-      allTasks,
-    } = this.props;
-
-    let toggleEditMode;
-
-    if (this.state.edit) {
-      toggleEditMode = (
-        <Edit text={text} id={id} saveEdit={saveEdit} allTasks={allTasks} />
-      );
-    } else {
-      toggleEditMode = (
-        <TodoButtons
-          completed={completed}
-          toggleCompleteTask={() => toggleCompleteTask(id)}
-          deleteTask={() => deleteTask(id)}
-        />
-      );
-    }
-
-    return (
-      <div
-        className={
-          this.state.edit
-            ? `${this.state.edit}__editModeLiWrapper`
-            : `${completed}__liWrapper`
-        }
-      >
-        <span
-          className="taskText"
-          style={{ display: this.state.edit ? 'none' : 'block' }}
-          onClick={() => handleEdit(id)}
-        >
-          {text}
-        </span>
-
-        {toggleEditMode}
-      </div>
+  if (edit) {
+    toggleEditMode = <Edit text={text} id={id} />;
+  } else {
+    toggleEditMode = (
+      <TodoButtons
+        completed={completed}
+        toggleCompleteTask={() => toggleCompleteTask(id)}
+        deleteTask={() => deleteTask(id)}
+      />
     );
   }
-}
 
-export default TodoComponent;
+  return (
+    <div
+      className={
+        edit ? `${edit}__editModeLiWrapper` : `${completed}__liWrapper`
+      }
+    >
+      <span
+        className="taskText"
+        style={{ display: edit ? 'none' : 'block' }}
+        onClick={() => enableEditMode(id)}
+      >
+        {text}
+      </span>
+
+      {toggleEditMode}
+    </div>
+  );
+};
+
+const mapStateToProps = state => ({
+  allTasks: state.allTasks,
+});
+
+const mapDispatchToProps = dispatch => ({
+  deleteTask: id => dispatch(actions.deleteTask(id)),
+  toggleCompleteTask: id => dispatch(actions.toggleCompleteTask(id)),
+  enableEditMode: id => dispatch(actions.enableEditMode(id)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(TodoComponent);

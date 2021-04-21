@@ -1,37 +1,19 @@
-import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import s from './TodoDone.module.css';
 import TodoComponent from '../TodoComponent';
 
 const TodoDone = props => {
-  const {
-    completedTasks,
-    toggleCompleteTask,
-    deleteTask,
-    handleEdit,
-    allTasks,
-    saveEdit,
-  } = props;
+  const { completedTasks } = props;
 
-  const DONE = completedTasks;
-  if (DONE.length > 0 && DONE !== 'undefined') {
+  if (completedTasks.length > 0 && completedTasks !== 'undefined') {
     return (
       <div className={s.wrapper}>
         <div className={s.line} />
         <h1 className={s.header}>Done:</h1>
         <ul className={s.done}>
-          {DONE.map(({ id, text, completed }) => (
+          {completedTasks.map(({ id, text, completed }) => (
             <li key={id}>
-              <TodoComponent
-                text={text}
-                completed={completed}
-                toggleCompleteTask={toggleCompleteTask}
-                deleteTask={deleteTask}
-                filteredTasks={DONE}
-                id={id}
-                handleEdit={handleEdit}
-                allTasks={allTasks}
-                saveEdit={saveEdit}
-              />
+              <TodoComponent id={id} text={text} completed={completed} />
             </li>
           ))}
         </ul>
@@ -42,4 +24,8 @@ const TodoDone = props => {
   }
 };
 
-export default TodoDone;
+const mapStateToProps = state => ({
+  completedTasks: state.allTasks.filter(({ completed }) => completed === true),
+});
+
+export default connect(mapStateToProps, null)(TodoDone);

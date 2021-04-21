@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import actions from '../../../redux/actions';
 import s from './AddTodo.module.css';
 
 class AddTodo extends Component {
@@ -14,6 +16,7 @@ class AddTodo extends Component {
       text: event.target.value,
     });
   };
+
   addTask = () => {
     if (this.state.text !== '') {
       this.props.saveTask(this.state.text);
@@ -46,4 +49,13 @@ class AddTodo extends Component {
   }
 }
 
-export default AddTodo;
+const mapDispatchToProps = dispatch => ({
+  saveTask: text => {
+    if (text !== '') {
+      dispatch(actions.saveTask(text));
+    }
+    return text;
+  },
+});
+
+export default connect(null, mapDispatchToProps)(AddTodo);

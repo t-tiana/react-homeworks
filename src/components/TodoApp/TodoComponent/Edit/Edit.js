@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import actions from '../../../../redux/actions';
+import { connect } from 'react-redux';
 import './Edit.scss';
 import { GrSave } from 'react-icons/gr';
 
@@ -6,17 +8,8 @@ class Edit extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      text: this.props.text,
-      todos: props.allTasks,
+      text: props.text,
     };
-  }
-
-  static getDerivedStateFromProps(props, state) {
-    const { allTasks } = props;
-
-    if (allTasks !== state.todos) {
-      return (state.todos = props.allTasks);
-    }
   }
 
   handleInputChange = event => {
@@ -25,12 +18,8 @@ class Edit extends Component {
     });
   };
 
-  saveEdit = () => {
-    this.props.saveEdit(this.state.text, this.props.id);
-  };
-
   render() {
-    const { id } = this.props;
+    const { id, saveEdit, handleEdit } = this.props;
     const { text } = this.state;
     return (
       <>
@@ -41,7 +30,11 @@ class Edit extends Component {
           id={id}
         />
         <div className="saveChangesButton">
-          <button type="button" className="saveEdit" onClick={this.saveEdit}>
+          <button
+            type="button"
+            className="saveEdit"
+            onClick={() => saveEdit(id, text)}
+          >
             <GrSave className="saveEditIcon" />
           </button>
         </div>
@@ -50,4 +43,8 @@ class Edit extends Component {
   }
 }
 
-export default Edit;
+const mapDispatchToProps = dispatch => ({
+  saveEdit: (id, text) => dispatch(actions.saveEdit(id, text)),
+});
+
+export default connect(null, mapDispatchToProps)(Edit);

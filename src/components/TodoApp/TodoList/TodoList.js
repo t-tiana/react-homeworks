@@ -1,36 +1,17 @@
-import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import './TodoList.scss';
 import TodoComponent from '../TodoComponent';
 
 const TodoList = props => {
-  const {
-    toggleCompleteTask,
-    deleteTask,
-    handleEdit,
-    allTasks,
-    saveEdit,
-    uncompletedTasks,
-  } = props;
-
-  const UNDONE = uncompletedTasks;
+  const { uncompletedTasks } = props;
 
   return (
     <>
       <h1 className="header">To do:</h1>
       <ul className="task">
-        {UNDONE.map(({ id, text, completed }) => (
+        {uncompletedTasks.map(({ id, text, completed }) => (
           <li key={id}>
-            <TodoComponent
-              text={text}
-              completed={completed}
-              toggleCompleteTask={toggleCompleteTask}
-              deleteTask={deleteTask}
-              filteredTasks={UNDONE}
-              id={id}
-              allTasks={allTasks}
-              handleEdit={handleEdit}
-              saveEdit={saveEdit}
-            />
+            <TodoComponent id={id} text={text} completed={completed} />
           </li>
         ))}
       </ul>
@@ -39,4 +20,10 @@ const TodoList = props => {
   );
 };
 
-export default TodoList;
+const mapStateToProps = state => ({
+  uncompletedTasks: state.allTasks.filter(
+    ({ completed }) => completed === false,
+  ),
+});
+
+export default connect(mapStateToProps, null)(TodoList);
